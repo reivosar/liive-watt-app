@@ -1,1 +1,1 @@
-# liive-watt-app
+# live-watt-app

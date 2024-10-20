@@ -1,0 +1,1 @@
+* * * * * /usr/local/bin/python /app/batch.py test_batch_job >> /var/log/cron.log 2>&1

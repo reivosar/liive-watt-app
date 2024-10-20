@@ -1,0 +1,100 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media
+
+# Python test coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.log
+
+# Pytest cache
+.pytest_cache/
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Profiling data
+profiler/
+*.prof
+
+# Elixir/Phoenix
+# Elixir build artifacts and dependencies
+/_build/
+/deps/
+/erl_crash.dump
+*.ez
+
+# Phoenix specific
+/assets/node_modules/
+priv/static/
+priv/repo/rollback_logs/
+
+# Elixir releases
+/rel/
+*.tar.gz
+
+# Node / JavaScript (Vite/React)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional eslint cache
+.eslintcache
+
+# Vite specific
+dist/
+
+# React-specific
+build/
+*.log
+
+# Phoenix specific generated static files
+priv/static/
+
+# Phoenix-specific test artifacts
+test/tmp/
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Postgres
+*.pgsql
+pgdata/
+
+# dotenv environment variables
+.env
+.env.*
+
+# System-specific
+.DS_Store
+Thumbs.db
