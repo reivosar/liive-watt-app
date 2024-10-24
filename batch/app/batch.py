@@ -28,12 +28,22 @@ def run_job_by_name(batch_name: str, *args):
 
         try:
             module = importlib.import_module(job.module_path)
-            function = getattr(module, job.function_name)
             
-            if args:
-                function(*args)
+            if job.class_name:
+                class_ = getattr(module, job.class_name)
+                instance = class_() 
+                
+                if args:
+                    getattr(instance, job.function_name)(*args) 
+                else:
+                    getattr(instance, job.function_name)()
             else:
-                function()
+                function = getattr(module, job.function_name)
+                
+                if args:
+                    function(*args) 
+                else:
+                    function()
 
             logger.update_execution_history(execution_history.id, BatchExecutionStatus.success)
         except Exception as e:

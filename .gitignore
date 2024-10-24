@@ -93,7 +93,6 @@ pgdata/
 
 # dotenv environment variables
 .env
-.env.*
 
 # System-specific
 .DS_Store
