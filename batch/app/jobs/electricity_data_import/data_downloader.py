@@ -19,6 +19,7 @@ class DataDownloader:
         return urls
 
     def download_data(self):
+        downloaded_file_names = []
         for url in self.urls:
             filename = os.path.basename(url)
             raw_filepath = os.path.join(RAW_DIR, filename)
@@ -36,5 +37,9 @@ class DataDownloader:
                     file.write(response.content)
                 print(f"Downloaded: {raw_filepath}")
 
+                downloaded_file_names.append(filename)
+
             except Exception as e:
                 print(f"Error downloading {url}: {e}")
+
+        return downloaded_file_names

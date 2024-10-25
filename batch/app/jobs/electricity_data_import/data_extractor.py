@@ -1,18 +1,15 @@
 import os
 import pandas as pd
-from app.jobs.electricity_data_import.const import RAW_DIR
-
-HEISEI_START_YEAR = 1988
+from app.jobs.electricity_data_import.const import RAW_DIR, HEISEI_START_YEAR
 
 class DataExtractor:
-    def extract_energy_usage_data(self):
+    def extract_energy_usage_data(self, file_name):
         data = []
-        for file in self.get_xlsx_files(RAW_DIR):
-            try:
-                sheet_names = self.get_sheet_names(file)
-                self.process_sheets(file, sheet_names, data)
-            except Exception as e:
-                print(f"Error processing file {file}: {e}")
+        try:
+            sheet_names = self.get_sheet_names(file_name)
+            self.process_sheets(file_name, sheet_names, data)
+        except Exception as e:
+            print(f"Error processing file {file_name}: {e}")
         return data
 
     def get_xlsx_files(self, directory):
@@ -28,7 +25,7 @@ class DataExtractor:
         for sheet in sheet_names:
             if self.is_valid_sheet(file, sheet):
                 try:
-                    self.process_sheet_data(file, sheet, self.get_header_row(file), data)
+                    self.process_sheet_data(file, sheet, data)
                 except Exception as sheet_error:
                     print(f"Error processing sheet {sheet} in file {file}: {sheet_error}")
 
@@ -38,17 +35,27 @@ class DataExtractor:
         else:
             return sheet.startswith("20") and sheet.find('.') > 0
 
-    def get_header_row(self, file):
-        return 4 if file.startswith("3-2-H") else 3
-
-    def process_sheet_data(self, file, sheet, header, data):
+    def process_sheet_data(self, file, sheet, data):
         filepath = os.path.join(RAW_DIR, file)
-        excel_data = pd.read_excel(filepath, sheet_name=sheet, header=header)
+        excel_data = pd.read_excel(filepath, sheet_name=sheet, header=None)
+
+        start_idx, end_idx = None, None
 
         for idx, row in excel_data.iterrows():
-            if idx > 46:
+            if row[0] == '北海道':
+                start_idx = idx
+            if row[0] == '沖縄県':
+                end_idx = idx
                 break
+
+        if start_idx is None or end_idx is None:
+            print(f"Could not find start ('北海道') or end ('沖縄県') rows in sheet {sheet}")
+            return
+
+        for idx in range(start_idx, end_idx + 1):
+            row = excel_data.iloc[idx]
             row_data = ' '.join(str(cell) for cell in row).split()
+
             if len(row_data) < 11: 
                 print(f"Invalid row data in sheet {sheet}: {row_data}")
                 continue

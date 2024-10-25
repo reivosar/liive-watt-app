@@ -17,9 +17,11 @@ class DBSaver:
                 self.save_to_energy_usages(db, extracted_data)
                 db.commit()
                 print("Database commit completed")
+                return True
         except Exception as e:
             db.rollback()
             print(f"An error occurred during the batch job: {e}")
+            return False
         finally:
             print("Finished to save data to the database.")
 

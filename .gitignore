@@ -97,3 +97,6 @@ pgdata/
 # System-specific
 .DS_Store
 Thumbs.db
+
+# Excel file
+*.xlsx
