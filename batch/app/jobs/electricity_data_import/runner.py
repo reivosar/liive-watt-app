@@ -19,7 +19,7 @@ class ElectricityDataImport:
             downloaded_file_names = self.downloader.download_data()
             for file_name in downloaded_file_names:
                 extracted_data = self.extractor.extract_energy_usage_data(file_name)
-                if self.saver.save_to_db(extracted_data):
+                if len(extracted_data) > 0 and self.saver.save_to_db(extracted_data):
                     self.processed_file_handler.move_to_processed(file_name)
         finally:
             print("Finished the electricity import batch job.")

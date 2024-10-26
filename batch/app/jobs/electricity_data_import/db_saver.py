@@ -29,14 +29,14 @@ class DBSaver:
         for record in extracted_data:
             try :
                 prefecture_code = self.get_prefecture_code(record['prefecture_name'])
-                    
-                if not prefecture_code:
+
+                if prefecture_code is None:
                     raise ValueError(f"Prefecture code not found for {record['prefecture_name']}")
 
                 if self.is_nan(prefecture_code):
                     print(f"Warning: Prefecture code is NaN for {record['prefecture_name']}. Skipping record.")
                     continue
-                        
+                
                 db.execute(
                     text(
                         """
