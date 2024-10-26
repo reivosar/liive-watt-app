@@ -11,8 +11,6 @@ defmodule BackendWeb.EnergyUsageController do
 
     energy_usages = EnergyUsageContext.list_energy_usages(filters)
 
-    IO.inspect(energy_usages, label: "Energy Usages before render")
-
     render(conn, "index.json", energy_usages: energy_usages)
   end
 end

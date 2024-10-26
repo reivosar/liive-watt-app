@@ -37,7 +37,6 @@ defmodule BackendWeb.EnergyUsageJSON do
   end
 
   def index(%{energy_usages: energy_usages}) do
-    IO.inspect(energy_usages, label: "Energy Usages in JSON Render")
     Enum.map(energy_usages, &data/1)
   end
 end
