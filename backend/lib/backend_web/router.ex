@@ -45,6 +45,8 @@ defmodule BackendWeb.Router do
       pipe_through(:api)
 
       resources("/energy_usages", EnergyUsageController, only: [:index, :show])
+
+      options("/*path", CORSController, :options)
     end
   end
 end
