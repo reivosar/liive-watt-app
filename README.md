@@ -53,7 +53,7 @@ The **Live Watt App** is a dashboard application to visualize electricity demand
 
 4. **Access the application:**
    Once the containers are running, open a browser and visit `http://localhost:5173/` to access the **Live Watt App** dashboard.
-
+   
 ## API Endpoints
 
 - **Energy Usages API:**
@@ -69,7 +69,7 @@ Refer to the `.env.example` file for a full list of required environment variabl
 
 ## Screenshots
 
-[Add screenshots here to demonstrate the UI and dashboard.]
+![スクリーンショット 2024-10-29 6 34 27](https://github.com/user-attachments/assets/45242293-4786-4ba2-b352-47015d12a30c)
 
 ## Notes
 
