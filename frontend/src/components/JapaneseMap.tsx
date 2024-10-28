@@ -4,6 +4,7 @@ import { scaleLinear } from "d3-scale";
 import { useFetchElectricityData } from "../hooks/useFetchElectricityData";
 import { prefectureMapping } from "../data/prefectures";
 import { EnergyUsage } from "../types/energyUsage";
+import { getEnergyUsagesUrl } from "../config";
 
 const topoUrl = "/topo/japan.topojson";
 
@@ -13,7 +14,7 @@ const colorScale = scaleLinear<string>()
 
 const JapaneseMap: React.FC = () => {
   const { data, loading, error } = useFetchElectricityData(
-    "http://localhost:4000/api/energy_usages"
+    getEnergyUsagesUrl()
   );
 
   const [tooltipContent, setTooltipContent] = useState<JSX.Element | null>(

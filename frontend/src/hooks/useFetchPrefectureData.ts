@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { EnergyUsage } from "../types/energyUsage";
+import { getEnergyUsagesUrl } from "../config";
 
 export const useFetchPrefectureData = (
   prefectureCode: string | null,
@@ -17,7 +18,7 @@ export const useFetchPrefectureData = (
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/prefecture/${prefectureCode}?year=${year}&month=${month}`
+          getEnergyUsagesUrl(prefectureCode, year, month)
         );
         if (!response.ok) throw new Error("Failed to fetch prefecture data");
         const result = await response.json();
