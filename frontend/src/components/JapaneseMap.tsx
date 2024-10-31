@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import { useFetchElectricityData } from "../hooks/useFetchElectricityData";
 import { prefectureMapping } from "../data/prefectures";
 import { EnergyUsage } from "../types/energyUsage";
 import { getEnergyUsagesUrl } from "../config";
+import { useSearchContext } from "../context/search/useContext";
+import TooltipContent from "./TooltipContent";
+import { ActionType } from "../reducers/searchReducer";
+import { useFetchElectricityData } from "../hooks/useFetchElectricityData";
 
 const topoUrl = "/topo/japan.topojson";
 
@@ -13,9 +16,30 @@ const colorScale = scaleLinear<string>()
   .range(["#E0F7FA", "#006064"]);
 
 const JapaneseMap: React.FC = () => {
+  const { state, dispatch } = useSearchContext();
+
   const { data, loading, error } = useFetchElectricityData(
-    getEnergyUsagesUrl()
+    getEnergyUsagesUrl(
+      undefined,
+      state.year ?? undefined,
+      state.month ?? undefined
+    )
   );
+
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: ActionType.FetchDataSuccess,
+        payload: data,
+      });
+    }
+    if (error) {
+      dispatch({
+        type: ActionType.FetchDataError,
+        payload: error,
+      });
+    }
+  }, [data, error, dispatch]);
 
   const [tooltipContent, setTooltipContent] = useState<JSX.Element | null>(
     null
@@ -27,62 +51,18 @@ const JapaneseMap: React.FC = () => {
     consumptionData: EnergyUsage | undefined
   ) => {
     if (consumptionData) {
-      const content = (
-        <table className="min-w-max text-sm text-left">
-          <tbody>
-            <tr>
-              <td className="font-bold pr-2">都道府県:</td>
-              <td>{consumptionData.prefecture_name}</td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">年:</td>
-              <td>{consumptionData.year}</td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">月:</td>
-              <td>{consumptionData.month}</td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">合計消費量:</td>
-              <td>{consumptionData.total_consumption.toLocaleString()} kWh</td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">小売事業者数:</td>
-              <td>{consumptionData.total_retailers_count}</td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">特別高圧消費量:</td>
-              <td>
-                {consumptionData.special_high_voltage_consumption.toLocaleString()}{" "}
-                kWh
-              </td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">高圧消費量:</td>
-              <td>
-                {consumptionData.high_voltage_consumption.toLocaleString()} kWh
-              </td>
-            </tr>
-            <tr>
-              <td className="font-bold pr-2">低圧消費量:</td>
-              <td>
-                {consumptionData.low_voltage_consumption.toLocaleString()} kWh
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      );
+      const content = <TooltipContent consumptionData={consumptionData} />;
       setTooltipContent(content);
 
       const targetRect = event.currentTarget.getBoundingClientRect();
       if (consumptionData.prefecture_name === "北海道") {
         setTooltipPosition({
-          x: targetRect.right - 200,
-          y: targetRect.bottom - 125,
+          x: targetRect.right - 230,
+          y: targetRect.bottom - 160,
         });
       } else {
         setTooltipPosition({
-          x: targetRect.right + 50,
+          x: targetRect.left + 100,
           y: targetRect.top - 200,
         });
       }
@@ -94,14 +74,14 @@ const JapaneseMap: React.FC = () => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching data: {error}</div>;
+  if (error) return <div>Error fetching data: {state.error}</div>;
 
   return (
     <div className="relative">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 1000,
+          scale: 980,
           center: [140, 33],
         }}
         height={600}
@@ -118,7 +98,7 @@ const JapaneseMap: React.FC = () => {
                 (code) => prefectureMapping[code] === geo.properties.nam_ja
               );
 
-              const consumptionData = data.find(
+              const consumptionData = state.data.find(
                 (d) => d.prefecture_code === prefectureCode
               );
 
