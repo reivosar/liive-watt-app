@@ -1,7 +1,3 @@
-You're right! Here's the updated version with the access information included:
-
----
-
 # Live Watt App
 
 The **Live Watt App** is a dashboard application to visualize electricity demand across Japan, displaying energy consumption data for each prefecture on a map. The frontend is built using **React**, **Vite**, **TailwindCSS**, and **TypeScript**, and the backend is developed with **Elixir** and **Phoenix**. All components are containerized, allowing for a seamless setup using **Docker**.
