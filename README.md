@@ -65,7 +65,7 @@ Refer to the `.env.example` file for a full list of required environment variabl
 
 ## Screenshots
 
-![スクリーンショット 2024-10-29 6 34 27](https://github.com/user-attachments/assets/45242293-4786-4ba2-b352-47015d12a30c)
+![スクリーンショット 2024-11-02 1 33 14](https://github.com/user-attachments/assets/7786259c-66b4-4ced-8a7d-87fdd0be41b4)
 
 ## Notes
 
