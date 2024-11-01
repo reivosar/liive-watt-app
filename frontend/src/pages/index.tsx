@@ -3,6 +3,7 @@ import JapaneseMap from "../components/JapaneseMap";
 import Header from "../components/Header";
 import SearchForm from "../components/SearchForm";
 import { SearchContextProvider } from "../context/search";
+import ConsumptionBarChart from "../components/ConsumptionBarChart";
 
 const IndexPage: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const IndexPage: React.FC = () => {
         <Header />
         <div className="mt-16">
           <SearchForm />
+          <ConsumptionBarChart />
           <JapaneseMap />
         </div>
       </div>
