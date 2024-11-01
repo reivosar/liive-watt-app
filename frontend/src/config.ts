@@ -1,6 +1,6 @@
 export const getBackendUrl = (): string => {
   const hostName = import.meta.env.VITE_BACKEND_URL;
-  return "http://localhost:4000";
+  return hostName ? hostName : "http://localhost:4000";
 };
 
 export const getEnergyUsagesUrl = (
